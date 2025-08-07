@@ -1,0 +1,41 @@
+# render.yaml - configurazione Render
+
+services:
+  - type: web_service
+    name: n8n-web
+    env: docker
+    plan: free # o starter, secondo le tue esigenze
+    region: oregon # scegli la regione più vicina (oregon, frankfurt, etc.)
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: 'true'
+      - key: N8N_BASIC_AUTH_USER
+        value: 'admin'
+      - key: N8N_BASIC_AUTH_PASSWORD
+        value: '<la-tua-password>'
+      - key: N8N_HOST
+        value: '<tuo-subdomain>.onrender.com'
+      - key: N8N_PORT
+        value: '5678'
+      - key: WEBHOOK_TUNNEL_URL
+        value: 'https://<tuo-subdomain>.onrender.com'
+      - key: NODE_ENV
+        value: 'production'
+
+  - type: postgres
+    name: n8n-postgres
+    plan: free
+    envVars:
+      - key: DB_TYPE
+        value: 'postgresdb'
+      - key: DB_POSTGRESDB_HOST
+        fromDatabase: HOST
+      - key: DB_POSTGRESDB_PORT
+        fromDatabase: PORT
+      - key: DB_POSTGRESDB_DATABASE
+        fromDatabase: DATABASE
+      - key: DB_POSTGRESDB_USER
+        fromDatabase: USER
+      - key: DB_POSTGRESDB_PASSWORD
+        fromDatabase: PASSWORD
